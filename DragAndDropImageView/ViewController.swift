@@ -9,10 +9,13 @@
 import UIKit
 import MobileCoreServices
 
-class ViewController: UIViewController, UIDragInteractionDelegate, UIDropInteractionDelegate {
+class ViewController: UIViewController, UIDragInteractionDelegate, UIDropInteractionDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
 
+    @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet var theView: UIView!
     @IBOutlet weak var imageView: UIImageView!
+    let data: [UIImage] = [UIImage(named: "5000limit")!, UIImage(named: "5000limit")!, UIImage(named: "5000limit")!, UIImage(named: "5000limit")!]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -23,9 +26,33 @@ class ViewController: UIViewController, UIDragInteractionDelegate, UIDropInterac
         theView.addInteraction(dropInteraction)
         imageView.isUserInteractionEnabled = true
         
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        
     }
 
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+        
+    }
     
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return data.count
+        
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectCell", for: indexPath)
+        
+        let imageView:UIImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+        let image: UIImage = data[indexPath.row]
+        imageView.image = image
+        
+        cell.contentView.addSubview(imageView)
+        return cell
+    }
+
    
     
     func dragInteraction(_ interaction: UIDragInteraction, itemsForBeginning session: UIDragSession) -> [UIDragItem] {
@@ -39,7 +66,7 @@ class ViewController: UIViewController, UIDragInteractionDelegate, UIDropInterac
              Returning a non-empty array, as shown here, enables dragging. You
              can disable dragging by instead returning an empty array.
         */
-        print(image.accessibilityFrame)
+        print(imageView.frame)
         
         print(image)
         return [item]
@@ -50,6 +77,8 @@ class ViewController: UIViewController, UIDragInteractionDelegate, UIDropInterac
     }
     func dropInteraction(_ interaction: UIDropInteraction, sessionDidUpdate session: UIDropSession) -> UIDropProposal {
         let dropLocation = session.location(in: view)
+        print(dropLocation)
+        
         DispatchQueue.main.async {
             self.view.reloadInputViews()
         }
