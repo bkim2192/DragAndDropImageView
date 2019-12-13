@@ -14,8 +14,9 @@ class ViewController: UIViewController, UIDragInteractionDelegate, UIDropInterac
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet var theView: UIView!
     @IBOutlet weak var imageView: UIImageView!
+
     let data: [UIImage] = [UIImage(named: "5000limit")!, UIImage(named: "5000limit")!, UIImage(named: "5000limit")!, UIImage(named: "5000limit")!]
-    
+    var tempArray:[CGPoint] = []
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -117,6 +118,7 @@ class ViewController: UIViewController, UIDragInteractionDelegate, UIDropInterac
             
             
         }
+        
         createImage("5000limit", CGRect(origin: dropLocation, size: CGSize(width: 240, height: 128)))
         return UIDropProposal(operation: operation)
         
@@ -133,10 +135,15 @@ class ViewController: UIViewController, UIDragInteractionDelegate, UIDropInterac
                  For example, you can use `DispatchQueue.main.async` method.
             */
             self.imageView.image = images.first
+            
         }
 
         // Perform additional UI updates as needed.
+        
         let dropLocation = session.location(in: view)
+        tempArray.append(dropLocation)
+        createImage("5000limit", CGRect(origin: dropLocation, size: CGSize(width: 240, height: 128)))
+        
          DispatchQueue.main.async {
             self.view.reloadInputViews()
             
