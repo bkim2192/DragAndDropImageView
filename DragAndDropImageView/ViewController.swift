@@ -26,6 +26,8 @@ class ViewController: UIViewController, UIDragInteractionDelegate, UIDropInterac
         theView.addInteraction(dropInteraction)
         imageView.isUserInteractionEnabled = true
         
+       
+        
         collectionView.dataSource = self
         collectionView.delegate = self
         
@@ -52,7 +54,16 @@ class ViewController: UIViewController, UIDragInteractionDelegate, UIDropInterac
         cell.contentView.addSubview(imageView)
         return cell
     }
+    
+    func createImage(_ imageName:String, _ location:CGRect) {
+        var mage: UIImage = UIImage(named: "\(imageName)")!
+        
+        var IV = UIImageView(image: mage)
+        self.view.addSubview(IV)
+        IV.frame = location
+        
 
+    }
    
     
     func dragInteraction(_ interaction: UIDragInteraction, itemsForBeginning session: UIDragSession) -> [UIDragItem] {
@@ -68,6 +79,11 @@ class ViewController: UIViewController, UIDragInteractionDelegate, UIDropInterac
         */
         print(imageView.frame)
         
+        
+            
+            
+            
+            
         print(image)
         return [item]
     }
@@ -76,9 +92,10 @@ class ViewController: UIViewController, UIDragInteractionDelegate, UIDropInterac
         return session.hasItemsConforming(toTypeIdentifiers: [kUTTypeImage as String]) && session.items.count == 1
     }
     func dropInteraction(_ interaction: UIDropInteraction, sessionDidUpdate session: UIDropSession) -> UIDropProposal {
+        
         let dropLocation = session.location(in: view)
         print(dropLocation)
-        
+//        let lastDropLocation = session.
         DispatchQueue.main.async {
             self.view.reloadInputViews()
         }
@@ -96,10 +113,13 @@ class ViewController: UIViewController, UIDragInteractionDelegate, UIDropInterac
             operation = session.localDragSession == nil ? .copy : .move
         } else {
             // Do not allow dropping outside of the image view.
-            operation = .cancel
+            operation = .copy
+            
+            
         }
-
+        createImage("5000limit", CGRect(origin: dropLocation, size: CGSize(width: 240, height: 128)))
         return UIDropProposal(operation: operation)
+        
     }
     func dropInteraction(_ interaction: UIDropInteraction, performDrop session: UIDropSession) {
         // Consume drag items (in this example, of type UIImage).
@@ -119,6 +139,7 @@ class ViewController: UIViewController, UIDragInteractionDelegate, UIDropInterac
         let dropLocation = session.location(in: view)
          DispatchQueue.main.async {
             self.view.reloadInputViews()
+            
                }
                
     }
