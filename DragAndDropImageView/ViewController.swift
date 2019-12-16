@@ -146,7 +146,7 @@ class ViewController: UIViewController, UIDragInteractionDelegate, UIDropInterac
         let dropLocation = session.location(in: view)
         tempArray.append(dropLocation)
         if var ltt = tempArray.last {
-        createImage("5000limit", CGRect(origin: ltt, size: CGSize(width: 150, height: 128)))
+        createImage("5000limit", CGRect(origin: ltt, size: CGSize(width: 128, height: 128)))
             
         }
          DispatchQueue.main.async {
