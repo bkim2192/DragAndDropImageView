@@ -93,7 +93,7 @@ class ViewController: UIViewController, UIDragInteractionDelegate, UIDropInterac
         return session.hasItemsConforming(toTypeIdentifiers: [kUTTypeImage as String]) && session.items.count == 1
     }
     func dropInteraction(_ interaction: UIDropInteraction, sessionDidUpdate session: UIDropSession) -> UIDropProposal {
-        
+        tempArray = []
         let dropLocation = session.location(in: view)
         print(dropLocation)
 //        let lastDropLocation = session.
@@ -119,8 +119,11 @@ class ViewController: UIViewController, UIDragInteractionDelegate, UIDropInterac
             
         }
         
-        createImage("5000limit", CGRect(origin: dropLocation, size: CGSize(width: 240, height: 128)))
+        
+       
+        
         return UIDropProposal(operation: operation)
+        
         
     }
     func dropInteraction(_ interaction: UIDropInteraction, performDrop session: UIDropSession) {
@@ -142,8 +145,10 @@ class ViewController: UIViewController, UIDragInteractionDelegate, UIDropInterac
         
         let dropLocation = session.location(in: view)
         tempArray.append(dropLocation)
-        createImage("5000limit", CGRect(origin: dropLocation, size: CGSize(width: 240, height: 128)))
-        
+        if var ltt = tempArray.last {
+        createImage("5000limit", CGRect(origin: ltt, size: CGSize(width: 150, height: 128)))
+            
+        }
          DispatchQueue.main.async {
             self.view.reloadInputViews()
             
