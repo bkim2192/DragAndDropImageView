@@ -149,6 +149,7 @@ class ViewController: UIViewController, UIDragInteractionDelegate, UIDropInterac
         createImage("5000limit", CGRect(origin: ltt, size: CGSize(width: 128, height: 128)))
             
         }
+        //ddd
          DispatchQueue.main.async {
             self.view.reloadInputViews()
             
